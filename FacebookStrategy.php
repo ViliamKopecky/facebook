@@ -68,6 +68,7 @@ class FacebookStrategy extends OpauthStrategy{
 				$this->auth = array(
 					'provider' => 'Facebook',
 					'uid' => $me->id,
+					'email' => $me->email,
 					'info' => array(
 						'name' => $me->name,
 						'image' => 'https://graph.facebook.com/'.$me->id.'/picture?type=square'
@@ -125,7 +126,7 @@ class FacebookStrategy extends OpauthStrategy{
 	 * @return array Parsed JSON results
 	 */
 	private function me($access_token){
-		$me = $this->serverGet('https://graph.facebook.com/me', array('access_token' => $access_token), null, $headers);
+		$me = $this->serverGet('https://graph.facebook.com/me', array('access_token' => $access_token, 'fields' => 'id,name,email'), null, $headers);
 		if (!empty($me)){
 			return json_decode($me);
 		}
